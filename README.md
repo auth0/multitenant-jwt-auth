@@ -3,6 +3,7 @@ This sample shows how to implement an API that:
 
 * Uses JWTs for authentication
 * Uses claims in those JWTs for authorization
+* Supports multiple tenants
 * Supports blacklisting JWTs
 
 ## Installation
