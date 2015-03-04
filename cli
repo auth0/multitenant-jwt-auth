@@ -1,0 +1,38 @@
+#!/usr/bin/env node
+
+var program = require('commander');
+var request = require('request');
+var urlJoin = require('url-join');
+var tokens  = require('./tokens');
+
+program
+  .version('0.0.0')
+  .option('--tenant <tenant>', 'The tenant id. Either "tenant_1" or "tenant_2"')
+  .option('--token <token>', 'The JWT for the tenant. Either 1 or 2')
+  .parse(process.argv);
+
+var validTenants = [ 'tenant_1', 'tenant_2' ];
+var validTokens = [ '1', '2' ];
+
+if (!(program.tenant && program.token) ||
+  !~validTenants.indexOf(program.tenant) ||
+  !~validTokens.indexOf(program.token)){
+  program.outputHelp();
+  process.exit(1);
+}
+
+var BASE_URL = 'http://localhost:8080';
+
+request.get({
+  url: urlJoin(BASE_URL, 'api', 'users'),
+  auth:{
+    bearer: tokens[program.tenant]['token_' + program.token]
+  }
+}, function(err, resp, body){
+  if (err) { return console.error(err); }
+  if (resp.statusCode !== 200) {
+    return console.error(body);
+  }
+
+  console.log('Success', body);
+});
