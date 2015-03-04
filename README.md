@@ -7,7 +7,7 @@ This sample shows how to implement an API that:
 * Supports blacklisting JWTs
 
 ## Installation
-Clone this repository. The run:
+Clone this repository. Then run:
 ```
 npm i
 ```
